@@ -12,7 +12,11 @@ const Twitter = () => {
 
       const onSubmit = (data) => {
         console.log("Message submited: " + JSON.stringify(data));
-        findUser(data.Username);
+        try {
+            findUser(data.Username);
+        } catch(err) {
+            console.log(`Some Error occured: ${err}`);
+        }
       };
 
       const findUser = (userName) => {
@@ -30,9 +34,15 @@ const Twitter = () => {
                 element.click();
                 document.body.removeChild(element);
               } else {
-                  window.alert("User not found");
+                  if(res.data.text) {
+                    window.alert(res.data.text);
+                  } else {
+                    window.alert("User not found");
+                  }
               }
-          });
+          }).catch(err => {
+            console.log(`Some Error occured: ${err}`);
+        });
       }
 
     return (
